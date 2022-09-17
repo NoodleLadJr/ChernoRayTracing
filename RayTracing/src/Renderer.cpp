@@ -21,13 +21,24 @@ void Renderer::OnResize(uint32_t width, uint32_t height)
 	m_ImageData = new uint32_t[width * height];
 }
 
+uint32_t Renderer::PerPixel(glm::vec2 coord)
+{
+	return 0xff66ddff;
+}
+
 void Renderer::Render()
 {
 
-	for (uint32_t i = 0; i < m_FinalImage->GetWidth() * m_FinalImage->GetHeight(); i++)
+	for (uint32_t y = 0; y < m_FinalImage->GetHeight(); y++)
 	{
-		m_ImageData[i] = Walnut::Random::UInt();
-		m_ImageData[i] |= 0xff000000;
+	
+		for (uint32_t x = 0; x < m_FinalImage->GetWidth(); x++)
+		{
+			glm::vec2 coord = { (float)x / (float)m_FinalImage->GetWidth(), (float)y / (float)m_FinalImage->GetHeight() };
+
+			m_ImageData[x + y * m_FinalImage->GetWidth()] = PerPixel(coord);
+
+		}
 	}
 
 
