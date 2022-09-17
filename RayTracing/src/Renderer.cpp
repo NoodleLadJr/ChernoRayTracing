@@ -23,7 +23,9 @@ void Renderer::OnResize(uint32_t width, uint32_t height)
 
 uint32_t Renderer::PerPixel(glm::vec2 coord)
 {
-	return 0xff66ddff;
+	uint8_t r = (uint8_t)(coord.x * 255.0f);
+	uint8_t g = (uint8_t)(coord.y * 255.0f);
+	return 0xff000000 | (g << 8) | r;
 }
 
 void Renderer::Render()
