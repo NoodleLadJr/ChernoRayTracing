@@ -29,6 +29,10 @@ uint32_t Renderer::PerPixel(glm::vec2 coord)
 	glm::vec3 rayOrigin(0.0f,0.0f, 2.0f);
 	glm::vec3 rayDirection(coord.x, coord.y, -1.0f);
 	float radius = 0.5f;
+	glm::vec3 sphereOrigin = glm::vec3(0.0f);
+	glm::vec3 lightDir = glm::vec3(-1.0f, -1.0f, 1.0f);
+
+	lightDir = glm::normalize(lightDir);
 
 	// (bx^2 + by^2)t^2 + (2axbx + 2ayby)t + ax^2 + ay^2 -r^2) = 0
 	float a = glm::dot(rayDirection, rayDirection);
@@ -36,13 +40,27 @@ uint32_t Renderer::PerPixel(glm::vec2 coord)
 	float c = glm::dot(rayOrigin, rayOrigin) - radius * radius;
 
 	float discriminant = b * b - 4.0 * a * c;
-
+	float light = 1.0f;
 	if (discriminant >= 0.0f)
 	{
-		return 0xffffaa22;
+		float t[] = { (-b - glm::sqrt(discriminant)) / (2.0f * a),
+					(-b + glm::sqrt(discriminant)) / (2.0f * a) };
+
+		for (int i = 0; i < 2; i++)
+		{
+			glm::vec3 hitPosition = rayOrigin + rayDirection * t[i];
+			glm::vec3 normal = hitPosition - sphereOrigin;
+			glm::normalize(normal);
+			glm::vec3 col = glm::vec3(normal * 0.5f + 0.5f);
+			light = glm::max(glm::dot(normal, -lightDir),0.0f);
+			//return 0xff000000 | (uint8_t)col.z << 16 | (uint8_t)col.y << 8 | (uint8_t)col.x;
+
+		}
+
+		return 0xffffcc55 * light;
 	}
 
-	return 0xffffffff;
+	return 0xff333333;
 }
 
 void Renderer::Render()
