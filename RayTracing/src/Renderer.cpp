@@ -42,7 +42,6 @@ glm::vec4 Renderer::PerPixel(glm::vec2 coord)
 
 	glm::vec3 rayOrigin(0.0f,0.0f, 2.0f);
 	glm::vec3 rayDirection(coord.x, coord.y, -1.0f);
-	float radius = 0.5f;
 
 	// (bx^2 + by^2)t^2 + (2axbx + 2ayby)t + ax^2 + ay^2 -r^2) = 0
 	float a = glm::dot(rayDirection, rayDirection);

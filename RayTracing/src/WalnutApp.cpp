@@ -20,6 +20,7 @@ public:
 			Render();
 		}
 
+		ImGui::SliderFloat("Radius", &m_Renderer.radius, 0.2f, 1.5f, "%f",1.0f );
 		ImGui::ColorEdit3("Color", m_Renderer.defaultColor);
 		ImGui::ColorEdit3("Background", m_Renderer.bgColor);
 
