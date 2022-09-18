@@ -19,6 +19,11 @@ public:
 		{
 			Render();
 		}
+
+		ImGui::ColorEdit3("Color", m_Renderer.defaultColor);
+		ImGui::ColorEdit3("Background", m_Renderer.bgColor);
+
+
 		ImGui::End();
 
 
@@ -37,6 +42,9 @@ public:
 
 		ImGui::End();
 		ImGui::PopStyleVar();
+
+		Render();
+
 	}
 
 	void Render()
@@ -59,6 +67,8 @@ private:
 Walnut::Application* Walnut::CreateApplication(int argc, char** argv)
 {
 	Walnut::ApplicationSpecification spec;
+	spec.Height = 576;
+	spec.Width = 720;
 	spec.Name = "Ray Tracing";
 
 	Walnut::Application* app = new Walnut::Application(spec);
